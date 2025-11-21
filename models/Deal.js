@@ -2,8 +2,16 @@ const mongoose = require('mongoose');
 
 const STATUS = {
     AVAILABLE: 'available',
-    BORROWED: 'borrowed',
-    PLAYING: 'playing'
+    APPROVED: 'approved',
+    REJECTED: 'rejected'
+}
+
+const CATEGORY = {
+    HIGH_TECH: "high-tech",
+    MAISON: "maison",
+    MODE: "mode", 
+    LOISIRS: "loisirs", 
+    AUTRE: "autre"
 }
 
 const dealSchema = new mongoose.Schema({
@@ -26,6 +34,11 @@ const dealSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: Object.values(CATEGORY)
     },
     originalPrice: {
         type: Number,

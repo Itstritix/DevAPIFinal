@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 
 const ROLES = {
@@ -17,27 +17,30 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
+        unique: true,
         trim: true,
-        minlength: 2,
-        maxlength: 20
+        minlength: 3,
+        maxlength: 30,
+        match: [/^[a-zA-Z0-9]+$/, 'Le nom d’utilisateur doit être alphanumérique uniquement.']
     },
     email: {
         type: String,
         required: true,
         unique: true,
         trim: true,
-        lowercase: true
+        lowercase: true,
+        match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Email invalide.']
     },
     password: {
         type: String,
         required: true,
-        minlength: 6
+        minlength: 8
     },
     role: {
         type: String,
         enum: Object.values(ROLES),
         default: ROLES.USER
-    }
+    },
 }, {timestamps: true});
 
 userSchema.pre('save', async function (next) {
@@ -52,6 +55,7 @@ userSchema.pre('save', async function (next) {
     }catch (error) {
         return next(error);
     }
+
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

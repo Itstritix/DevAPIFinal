@@ -112,3 +112,13 @@
 [2025-11-14T15:36:48.977Z] INFO: Serveur démarré sur http://localhost:3000
 [2025-11-14T15:36:48.980Z] INFO: 🚀 Serveur prêt!
 2025-11-14T15:36:50.761Z POST /api/auth/register 201 106.988 ms - 322
+[2025-11-14T15:37:51.190Z] INFO: Serveur démarré sur http://localhost:3000
+[2025-11-14T15:37:51.192Z] INFO: 🚀 Serveur prêt!
+2025-11-14T15:37:51.625Z POST /api/auth/login 200 159.849 ms - 477
+2025-11-14T15:38:04.857Z GET /api/auth/me 200 17.687 ms - 155
+[2025-11-14T15:39:36.685Z] INFO: Serveur démarré sur http://localhost:3000
+[2025-11-14T15:39:36.686Z] INFO: 🚀 Serveur prêt!
+[2025-11-14T15:40:04.199Z] INFO: Serveur démarré sur http://localhost:3000
+[2025-11-14T15:40:04.201Z] INFO: 🚀 Serveur prêt!
+[2025-11-14T15:40:45.873Z] INFO: Serveur démarré sur http://localhost:3000
+[2025-11-14T15:40:45.874Z] INFO: 🚀 Serveur prêt!
