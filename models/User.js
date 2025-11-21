@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         minlength: 3,
         maxlength: 30,
-        match: [/^[a-zA-Z0-9]+$/, 'Le nom d’utilisateur doit être alphanumérique uniquement.']
+        match: [/^[a-zA-Z0-9]+$/, 'Le nom d\'utilisateur doit être alphanumérique uniquement.']
     },
     email: {
         type: String,
