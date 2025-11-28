@@ -19,17 +19,21 @@ const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return next(new AppError('Token d\'authentification manquant ou invalide', 401));
+    return next(new AppError("AUthentication token is either missing or invalid", 401));
   }
 
   const token = authHeader.split(' ')[1];
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return res.status(401).json({ message: "User doesn't exist" });
+    }
+    req.user = user;
     next();
   } catch (error) {
-    next(new AppError('Token d\'authentification invalide', 401));
+    next(new AppError("Authentication token is invalid", 401));
   }
 };
 

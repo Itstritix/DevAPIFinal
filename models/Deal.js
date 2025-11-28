@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const STATUS = {
-    AVAILABLE: 'available',
+    PENDING: 'pending',
     APPROVED: 'approved',
     REJECTED: 'rejected'
 }
@@ -18,17 +18,16 @@ const dealSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        trim: true,
         minlength: 1,
-        maxlength: 20
+        maxlength: 20,
+        lowercase: true
     },
     description: {
         type: String,
         required: true,
-        unique: true,
-        trim: true,
-        minlength: 1,
-        maxlength: 2000
+        minlength: 10,
+        maxlength: 500,
+        lowercase: true
     },
     price: {
         type: Number,
@@ -47,14 +46,13 @@ const dealSchema = new mongoose.Schema({
     },
     url: {
         type: String,
-        required: true,
         trim: true
     },
     status: {
         type: String,
         required: true,
         enum: Object.values(STATUS),
-        default: STATUS.AVAILABLE
+        default: STATUS.PENDING
     },
     temperature: {
         type: Number,

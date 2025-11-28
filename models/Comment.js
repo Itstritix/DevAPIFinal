@@ -4,8 +4,7 @@ const commentSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true,
-        trim: true,
-        maxlength: 1500
+        maxlength: 500
     },
     dealId: {
         type: mongoose.Schema.Types.ObjectId,

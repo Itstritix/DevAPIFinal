@@ -9,7 +9,7 @@ const registerController = async (req, res, next) => {
   const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
   if (existingUser) {
-    return next(new AppError("Utilisateur déjà existant", 409));
+    return next(new AppError("User already exists", 409));
   }
 
   const user = new User({
@@ -22,7 +22,7 @@ const registerController = async (req, res, next) => {
   const jwtToken = generateToken(user._id);
 
   res.status(201).json({
-    message: "Utilisateur enregistré avec succès",
+    message: "User registered with success",
     user: {
       id: user._id,
       username: user.username,
@@ -35,15 +35,16 @@ const registerController = async (req, res, next) => {
 const loginController = async (req, res, next) => {
     const { email, password } = req.body
     const existingUser = await User.findOne({email});
+    console.log(req.user);
 
     if (!existingUser) {
-        return next(new AppError("L'utilisateur n'existe pas", 401));
+        return next(new AppError("User do not exist", 401));
     }
 
     const passwordMatch = await existingUser.comparePassword(password);
 
     if (!passwordMatch) {
-        return next(new AppError("L'utilisateur n'existe pas", 401));
+        throw new AppError("User do not exist", 401);
     }
 
     const jwtToken = generateToken(existingUser._id);
