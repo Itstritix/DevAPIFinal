@@ -5,6 +5,7 @@ const { dbConnect } = require('./config/database');
 const authRouter = require('./routes/authRoute');
 const dealRouter = require('./routes/dealRoute');
 const commentRouter = require('./routes/commentRoute');
+const adminRouter = require('./routes/adminRoute');
 
 
 require('dotenv').config();
@@ -22,6 +23,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/deals", dealRouter);
 app.use("/api/deals", commentRouter);
 app.use("/api/comment", commentRouter);
+app.use("/api/admin", adminRouter);
 
 
 

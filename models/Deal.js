@@ -66,5 +66,8 @@ const dealSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
+dealSchema.statics.CATEGORY = CATEGORY;
+dealSchema.statics.STATUS = STATUS;
+
 const Deal = mongoose.model('Deal', dealSchema);
 module.exports = Deal;

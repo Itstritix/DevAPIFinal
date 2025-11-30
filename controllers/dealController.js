@@ -197,6 +197,7 @@ const deleteVoteController = async(req, res, next) => {
     });
 
 }
+
 module.exports = { 
     dealController, 
     dealSearchController, 

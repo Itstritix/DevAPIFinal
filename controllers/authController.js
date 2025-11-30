@@ -35,7 +35,6 @@ const registerController = async (req, res, next) => {
 const loginController = async (req, res, next) => {
     const { email, password } = req.body
     const existingUser = await User.findOne({email});
-    console.log(req.user);
 
     if (!existingUser) {
         return next(new AppError("User do not exist", 401));

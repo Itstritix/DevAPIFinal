@@ -60,5 +60,14 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 }
 
+userSchema.methods.hasRole = function(requiredRole) {
+    const userLevel = ROLE_HIERARCHY[this.role] || 0;
+    const requiredLevel = ROLE_HIERARCHY[requiredRole] || 0;
+    return userLevel >= requiredLevel;
+}
+
+userSchema.statics.ROLES = ROLES;
+userSchema.statics.ROLE_HIERARCHY = ROLE_HIERARCHY;
+
 const User = mongoose.model('User', userSchema);
 module.exports = User;
