@@ -4,6 +4,8 @@ const { errorHandler, notFoundHandler } = require('./middlewares/errorMiddleware
 const { dbConnect } = require('./config/database');
 const authRouter = require('./routes/authRoute');
 const dealRouter = require('./routes/dealRoute');
+const commentRouter = require('./routes/commentRoute');
+
 
 require('dotenv').config();
 
@@ -18,6 +20,9 @@ dbConnect;
 
 app.use("/api/auth", authRouter);
 app.use("/api/deals", dealRouter);
+app.use("/api/deals", commentRouter);
+app.use("/api/comment", commentRouter);
+
 
 
 app.use(errorHandler);
