@@ -1,4 +1,5 @@
 const Deal = require("../models/Deal");
+const Vote = require("../models/Vote")
 const { AppError } = require("../utils/error");
 
 const dealController = async (req, res, next) => {
@@ -115,4 +116,94 @@ const deleteDealController = async(req, res, next) => {
     })
 }
 
-module.exports = { dealController, dealSearchController, createDealController, updateDealController, searchByIdController, deleteDealController };
+const addVoteController = async(req, res, next) => {
+    const dealId = req.params.id;
+    const { type } = req.body;
+
+    if (type !== "cold" && type !== "hot") {
+        return res.status(400).json({
+            message: "The temperature can only be cold or hot"
+        });
+    }
+
+    const deal = await Deal.findById(dealId);
+    if (!deal) {
+        return res.status(400).json({
+            message: "Deal not found"
+        });
+    }
+
+    const existingVote = await Vote.findOne({ $and: [{
+        authorId: req.user._id,
+        dealId: deal._id  
+    }]});
+
+    if (existingVote) {
+        existingVote.type = type
+        await existingVote.save()
+    };
+
+    if (!existingVote) {
+        const vote = new Vote({
+            type: type,
+            authorId: req.user._id,
+            dealId: deal._id
+        })
+        await vote.save();
+    }   
+
+    const coldVote = await Vote.countDocuments({type: "cold"}, {dealId: deal._id});
+    const hotVote = await Vote.countDocuments({type: "hot"}, {dealId: deal._id});
+
+    deal.temperature = hotVote - coldVote;
+    await deal.save()
+
+    return res.status(200).json({
+        message: "You voted "+ type
+    });
+
+}
+
+const deleteVoteController = async(req, res, next) => {
+    const dealId = req.params.id;
+
+    const deal = await Deal.findById(dealId);
+    if (!deal) {
+        return res.status(400).json({
+            message: "Deal not found"
+        });
+    }
+
+    const vote = await Vote.findOne({ $and: [{
+        authorId: req.user._id,
+        dealId: deal._id  
+    }]});
+
+    if (!vote) {
+        return res.status(400).json({
+            message: "You didn't vote for this deal"
+        })
+    }
+
+    await vote.deleteOne();
+    const coldVote = await Vote.countDocuments({type: "cold"}, {dealId: deal._id});
+    const hotVote = await Vote.countDocuments({type: "hot"}, {dealId: deal._id});
+
+    deal.temperature = hotVote - coldVote;
+    await deal.save()
+
+    return res.status(200).json({
+        message: "Your vote has been removed"
+    });
+
+}
+module.exports = { 
+    dealController, 
+    dealSearchController, 
+    createDealController, 
+    updateDealController, 
+    searchByIdController, 
+    deleteDealController, 
+    addVoteController,
+    deleteVoteController
+};
