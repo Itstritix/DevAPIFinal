@@ -66,6 +66,15 @@ const dealSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
+dealSchema.virtual("comments", {
+    ref: "Comment",
+    localField: "_id",
+    foreignField: "dealId"
+});
+
+dealSchema.set("toJSON", { virtuals: true });
+dealSchema.set("toObject", { virtuals: true });
+
 dealSchema.statics.CATEGORY = CATEGORY;
 dealSchema.statics.STATUS = STATUS;
 

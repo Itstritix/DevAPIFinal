@@ -94,7 +94,12 @@ const dealSearchController = async (req, res, next) => {
 
 const searchByIdController = async (req, res, next) => {
     const { id } = req.params;
-    const deal = await Deal.findById(id);
+    const deal = await Deal.findById(id)
+    .populate('authorId', 'username')
+    .populate({
+        path: "comments",
+        populate: { path: "authorId", select: "username" },
+    });
 
     if (!deal) {
         return res.status(400).json({
