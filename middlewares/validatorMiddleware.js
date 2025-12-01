@@ -17,7 +17,7 @@ const validate = (req, res, next) => {
     }));
     
     // Créer une erreur de validation avec toutes les erreurs
-    const validationError = new ValidationError('Erreur de validation', extractedErrors);
+    const validationError = new ValidationError('Validation error', extractedErrors);
     return next(validationError);
   }
   

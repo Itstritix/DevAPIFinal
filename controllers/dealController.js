@@ -164,7 +164,8 @@ const addVoteController = async(req, res, next) => {
     await deal.save()
 
     return res.status(200).json({
-        message: "You voted "+ type
+        message: "You voted "+ type,
+        temperature: deal.temperature
     });
 
 }
@@ -198,7 +199,8 @@ const deleteVoteController = async(req, res, next) => {
     await deal.save()
 
     return res.status(200).json({
-        message: "Your vote has been removed"
+        message: "Your vote has been removed",
+        temperature: deal.temperature
     });
 
 }

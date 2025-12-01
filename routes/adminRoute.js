@@ -6,7 +6,7 @@ const { pendingDealsController, moderateDealsController, userListController, use
 
 router.patch("/deals/:id/moderate", authMiddleware, requiredRole(User.ROLES.MODERATOR), moderateDealsController);
 router.get("/deals/pending", authMiddleware, requiredRole(User.ROLES.MODERATOR), pendingDealsController);
-router.get("/users", authMiddleware, requiredRole(User.ROLES.MODERATOR), userListController);
-router.patch("/users/:id/role", authMiddleware, requiredRole([User.ROLES.ADMIN]), userRoleController);
+router.get("/users", authMiddleware, requiredRole(User.ROLES.ADMIN), userListController);
+router.patch("/users/:id/role", authMiddleware, requiredRole(User.ROLES.ADMIN), userRoleController);
 
 module.exports = router;
